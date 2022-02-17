@@ -1,3 +1,4 @@
+import com.soywiz.korge.gradle.GameCategory
 import com.soywiz.korge.gradle.KorgeGradlePlugin
 import com.soywiz.korge.gradle.korge
 
@@ -18,7 +19,10 @@ buildscript {
 apply<KorgeGradlePlugin>()
 
 korge {
-	id = "com.sample.demo"
+	id = "de.tfr.kojamatch"
+	name = "KoJa Match Up"
+	authorName = "Tobse"
+	gameCategory = GameCategory.ARCADE
 
 // To enable all targets at once
 
@@ -32,7 +36,7 @@ korge {
 	targetJvm()
 	targetJs()
 	targetDesktop()
-	targetIos()
-	targetAndroidIndirect() // targetAndroidDirect()
+	//targetIos()
+	//targetAndroidIndirect() // targetAndroidDirect()
 	//targetAndroidDirect()
 }
