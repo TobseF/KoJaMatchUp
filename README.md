@@ -1,7 +1,9 @@
-# 🎮 Korge Hello World and Template
+# 🎮 Ko Ja Match Up
 
-This is a Hello World and Template for the KorGe game engine. Using gradle with kotlin-dsl. You can open this project in
-IntelliJ IDEA by opening the folder or the build.gradle.kts file.
+> ℹ Ko Ja Match Up is a realtime massive multiplayer match up game.
+> Two teams try to beat each other in a concentration game.
+
+> 💡 The short name stands for [Ko]tlin vs [Ja]va [Match Up] game
 
 You can find this template at GitHub: <https://github.com/korlibs/korge-hello-world>
 
