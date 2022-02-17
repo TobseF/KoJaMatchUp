@@ -1,15 +1,14 @@
-import com.soywiz.klock.seconds
 import com.soywiz.korge.Korge
-import com.soywiz.korge.tween.get
-import com.soywiz.korge.tween.tween
-import com.soywiz.korge.view.*
+import com.soywiz.korge.view.addTo
+import com.soywiz.korge.view.alignBottomToBottomOf
 import com.soywiz.korgw.GameWindow
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.SizeInt
-import com.soywiz.korma.geom.degrees
-import com.soywiz.korma.interpolation.Easing
+import de.tfr.kojamatch.game.CardsField
+import de.tfr.kojamatch.game.KorgeLogo
+import de.tfr.kojamatch.game.Player
 
 const val debug = false
 
@@ -36,20 +35,12 @@ suspend fun main() = Korge(
     title = "KoJa Match Up",
     quality = GameWindow.Quality.QUALITY,
 ) {
-    val minDegrees = (-16).degrees
-    val maxDegrees = (+16).degrees
-
     val playerImage = resourcesVfs["player-single.png"].readBitmap()
+    CardsField(4, 3).addTo(this).alignBottomToBottomOf(this)
     Player(playerImage).addTo(this)
 
-    val image = image(resourcesVfs["korge.png"].readBitmap()) {
-        rotation = maxDegrees
-        scale(.2)
-    }.alignRightToRightOf(this, 20).alignTopToTopOf(this, 20)
 
-    while (true) {
-        image.tween(image::rotation[minDegrees], time = 1.seconds, easing = Easing.EASE_IN_OUT)
-        image.tween(image::rotation[maxDegrees], time = 1.seconds, easing = Easing.EASE_IN_OUT)
-    }
+    val logo = resourcesVfs["korge.png"].readBitmap()
+    KorgeLogo(logo).addTo(this).init()
 }
 

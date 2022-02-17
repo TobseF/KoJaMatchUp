@@ -1,8 +1,11 @@
+package de.tfr.kojamatch.game
+
 import com.soywiz.korev.Key
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.view.BaseImage
 import com.soywiz.korim.bitmap.Bitmap
 import com.soywiz.korui.layout.MathEx
+import virtualResolution
 
 class Player(bitmap: Bitmap) : BaseImage(bitmap) {
     private val step = 20
