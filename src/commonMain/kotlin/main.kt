@@ -1,6 +1,7 @@
 import com.soywiz.korge.Korge
 import com.soywiz.korge.view.addTo
 import com.soywiz.korge.view.alignBottomToBottomOf
+import com.soywiz.korge.view.centerOnStage
 import com.soywiz.korgw.GameWindow
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.format.readBitmap
@@ -37,7 +38,7 @@ suspend fun main() = Korge(
 ) {
     val playerImage = resourcesVfs["player-single.png"].readBitmap()
     CardsField(4, 3).addTo(this).alignBottomToBottomOf(this)
-    Player(playerImage).addTo(this)
+    Player(playerImage).addTo(this).centerOnStage()
 
 
     val logo = resourcesVfs["korge.png"].readBitmap()
