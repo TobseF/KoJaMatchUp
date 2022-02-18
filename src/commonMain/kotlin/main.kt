@@ -1,4 +1,5 @@
 import com.soywiz.korge.Korge
+import com.soywiz.korge.bus.GlobalBus
 import com.soywiz.korge.view.addTo
 import com.soywiz.korge.view.alignBottomToBottomOf
 import com.soywiz.korge.view.centerOnStage
@@ -9,6 +10,7 @@ import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.SizeInt
 import de.tfr.kojamatch.game.CardsField
 import de.tfr.kojamatch.game.KorgeLogo
+import de.tfr.kojamatch.game.Mechanics
 import de.tfr.kojamatch.game.Player
 
 const val debug = false
@@ -36,10 +38,12 @@ suspend fun main() = Korge(
     title = "KoJa Match Up",
     quality = GameWindow.Quality.QUALITY,
 ) {
+    val bus = GlobalBus()
     val playerImage = resourcesVfs["player-single.png"].readBitmap()
-    CardsField(4, 3).addTo(this).alignBottomToBottomOf(this)
-    Player(playerImage).addTo(this).centerOnStage()
+    val field = CardsField(4, 3).addTo(this).alignBottomToBottomOf(this)
+    val player = Player(playerImage, bus).addTo(this).centerOnStage()
 
+    Mechanics(bus, field, player).addTo(this)
 
     val logo = resourcesVfs["korge.png"].readBitmap()
     KorgeLogo(logo).addTo(this).init()

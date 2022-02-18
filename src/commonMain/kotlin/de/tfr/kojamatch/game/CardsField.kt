@@ -13,9 +13,11 @@ import kotlin.random.Random
  */
 class CardsField(private val columns: Int, private val rows: Int) : Container() {
 
-    private val minimalGap = 10
+    private val minimalGap = 20
     private val fieldHeight = (virtualResolution.height * 0.35).toInt()
     private val fieldWith = virtualResolution.width
+
+    val cards = mutableListOf<Card>()
 
     private fun shuffleCards(): List<Int> {
         return listPairs(columns, rows).shuffled(Random.Default)
@@ -44,10 +46,11 @@ class CardsField(private val columns: Int, private val rows: Int) : Container() 
                 if (cardType != null) {
                     val cardX = (column * (cardSize + gapColumn)) + gapColumn
                     val cardY = (row * (cardSize + gapRow)) + gapRow
-                    Card(cardSize, cardType, cardX, cardY).addTo(this)
+                    cards += Card(cardSize, cardType, cardX, cardY).addTo(this)
                 }
                 card++
             }
         }
+
     }
 }
