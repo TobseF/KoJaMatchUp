@@ -31,6 +31,10 @@ class CardsField(private val columns: Int, private val rows: Int, resources: Res
         }
     }
 
+    fun getSelectedCard(player: Player): Card? {
+        return cards.firstOrNull { player.touches(it) }
+    }
+
     init {
         val cardWidth = (fieldWith / columns) - minimalGap
         val cardHeight = (fieldHeight / rows) - minimalGap
