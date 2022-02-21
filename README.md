@@ -5,7 +5,7 @@
 
 > 💡 The short name stands for [Ko]tlin vs [Ja]va [Match Up] game
 
-You can find this template at GitHub: <https://github.com/korlibs/korge-hello-world>
+> 🕹 [Play the game Online](https://tobsef.github.io/KoJaMatchUp/)
 
 For Windows, change all the `./gradlew` for `gradlew.bat`.
 
