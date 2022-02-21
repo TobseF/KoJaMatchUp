@@ -11,6 +11,10 @@ For Windows, change all the `./gradlew` for `gradlew.bat`.
 
 You should use Gradle 5.5 or greater and Java 8 or greater.
 
+## Resources
+
+* Thanks for the animal images from [opengameart - michaelodor](https://opengameart.org/users/michaelodor)
+
 ## Compiling for the JVM (Desktop)
 
 Inside IntelliJ you can go to the `src/commonMain/kotlin/main.kt` file and press the green ▶️ icon that appears to the

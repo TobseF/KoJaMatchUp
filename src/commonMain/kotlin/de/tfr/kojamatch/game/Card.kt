@@ -6,9 +6,9 @@ import com.soywiz.korim.color.Colors
 /**
  * Memory card on the [CardsField]
  */
-class Card(size: Int, type: Int, x: Int, y: Int) : Container() {
-    val borderRect: SolidRect
+class Card(size: Int, type: Int, x: Int, y: Int, resources: Resources) : Container() {
 
+    private val borderRect: SolidRect
     private val border = 4.0
 
     init {
@@ -18,7 +18,9 @@ class Card(size: Int, type: Int, x: Int, y: Int) : Container() {
             position(-border, -border)
         }
         solidRect(size, size, color = Colors.LIGHTYELLOW)
-        text("" + type, textSize = 42.0, color = Colors.BLACK).centerOn(this)
+        image(resources.getCard(type)) {
+            setSizeScaled(size.toDouble(), size.toDouble())
+        }
     }
 
     fun setHighlight(visible: Boolean) {

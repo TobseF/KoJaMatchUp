@@ -6,12 +6,13 @@ import com.soywiz.korge.view.solidRect
 import com.soywiz.korim.color.Colors
 import com.soywiz.korui.layout.MathEx.min
 import virtualResolution
+import kotlin.math.round
 import kotlin.random.Random
 
 /**
  * Field with [Card]s
  */
-class CardsField(private val columns: Int, private val rows: Int) : Container() {
+class CardsField(private val columns: Int, private val rows: Int, resources: Resources) : Container() {
 
     private val minimalGap = 20
     private val fieldHeight = (virtualResolution.height * 0.35).toInt()
@@ -25,7 +26,7 @@ class CardsField(private val columns: Int, private val rows: Int) : Container() 
 
     companion object {
         fun listPairs(columns: Int, rows: Int): List<Int> {
-            val cardsCount = ((columns * rows) / 2) * 2
+            val cardsCount = round((columns * rows) / 2.0).toInt()
             return (0 until cardsCount).flatMap { listOf(it, it) }
         }
     }
@@ -46,7 +47,7 @@ class CardsField(private val columns: Int, private val rows: Int) : Container() 
                 if (cardType != null) {
                     val cardX = (column * (cardSize + gapColumn)) + gapColumn
                     val cardY = (row * (cardSize + gapRow)) + gapRow
-                    cards += Card(cardSize, cardType, cardX, cardY).addTo(this)
+                    cards += Card(cardSize, cardType, cardX, cardY, resources).addTo(this)
                 }
                 card++
             }

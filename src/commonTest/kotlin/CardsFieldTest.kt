@@ -8,10 +8,17 @@ import kotlin.test.assertEquals
 class CardsFieldTest {
 
     @Test
-    fun `test list pairs`() {
+    fun `test list 3 pairs`() {
         val cards = CardsField.listPairs(2, 3)
-        assertEquals(listOf(0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5), cards)
+        assertEquals(listOf(0, 0, 1, 1, 2, 2), cards)
     }
+
+    @Test
+    fun `test list 6 pairs `() {
+        val cards = CardsField.listPairs(3, 4)
+        assertEquals(12, cards.size)
+    }
+
 
     @Test
     fun `test list pairs uneven`() {
