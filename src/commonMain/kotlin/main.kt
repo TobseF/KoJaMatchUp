@@ -11,6 +11,7 @@ import com.soywiz.korma.geom.SizeInt
 import de.tfr.kojamatch.game.*
 
 const val debug = false
+const val cheatMode = false
 
 /**
  * Virtual size which gets projected onto the [windowResolution]
@@ -23,7 +24,6 @@ val virtualResolution = SizeInt(810, 1440)
 val windowResolution = SizeInt(540, 960)
 
 val backgroundColor = Colors["#2b2b2b"]
-
 
 suspend fun main() = Korge(
     virtualHeight = virtualResolution.height,

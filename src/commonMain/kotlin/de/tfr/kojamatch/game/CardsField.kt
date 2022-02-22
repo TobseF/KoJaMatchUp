@@ -51,7 +51,7 @@ class CardsField(private val columns: Int, private val rows: Int, resources: Res
                 if (cardType != null) {
                     val cardX = (column * (cardSize + gapColumn)) + gapColumn
                     val cardY = (row * (cardSize + gapRow)) + gapRow
-                    cards += Card(cardSize, cardType, cardX, cardY, resources).addTo(this)
+                    cards += Card(cardSize, cardType, cardX, cardY, column, row, resources).addTo(this)
                 }
                 card++
             }

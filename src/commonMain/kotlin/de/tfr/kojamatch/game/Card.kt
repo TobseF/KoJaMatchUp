@@ -1,5 +1,6 @@
 package de.tfr.kojamatch.game
 
+import cheatMode
 import com.soywiz.klock.seconds
 import com.soywiz.korge.tween.duration
 import com.soywiz.korge.tween.easing
@@ -12,7 +13,15 @@ import com.soywiz.korma.interpolation.Easing
 /**
  * Memory card on the [CardsField]
  */
-class Card(private val cardSize: Int, type: Int, posX: Int, posY: Int, resources: Resources) : Container() {
+class Card(
+    private val cardSize: Int,
+    val type: Int,
+    posX: Int,
+    posY: Int,
+    val column: Int,
+    val row: Int,
+    resources: Resources
+) : Container() {
 
     private val borderRect: RoundRect
     private val border = 6.0
@@ -22,8 +31,9 @@ class Card(private val cardSize: Int, type: Int, posX: Int, posY: Int, resources
     private val scaledSize: Double
 
     private val rotateDuration = 1.seconds
-    private var rotated = false
-    private var rotating = false
+    private val collectDuration = 1.2.seconds
+    var rotating = false
+    var collected = false
 
     init {
         position(posX, posY)
@@ -37,6 +47,7 @@ class Card(private val cardSize: Int, type: Int, posX: Int, posY: Int, resources
         ) {
             position(-border, -border)
         }
+
         image = image(resources.getCard(type)) {
             setSize(cardSize.toDouble(), cardSize.toDouble())
         }
@@ -44,25 +55,34 @@ class Card(private val cardSize: Int, type: Int, posX: Int, posY: Int, resources
             setSize(cardSize.toDouble(), cardSize.toDouble())
         }
         scaledSize = image.scale
-    }
-
-    suspend fun rotate() {
-        if (!rotating) {
-            if (rotated) {
-                takeOff()
-            } else {
-                takeUp()
-            }
-            rotated = !rotated
+        if (cheatMode) {
+            text("" + type, textSize = 60.0, color = Colors.BLACK).centerOn(this)
         }
     }
 
     suspend fun takeOff() {
-        rotateCard(background, image)
+        if (!rotating) {
+            rotateCard(background, image)
+        }
     }
 
     suspend fun takeUp() {
-        rotateCard(image, background)
+        if (!rotating) {
+            rotateCard(image, background)
+        }
+    }
+
+    suspend fun collect() {
+        collected = true
+        takeUp()
+        rotating = true
+        background.visible = false
+        image.tween(
+            image::scale[1.4].duration(collectDuration).easing(Easing.EASE_IN_QUAD),
+            image::alpha[0].duration(collectDuration).easing(Easing.EASE_IN_QUAD),
+        )
+        visible = false
+        removeFromParent()
     }
 
     suspend fun rotateCard(foreground: Image, background: Image) {
@@ -85,5 +105,10 @@ class Card(private val cardSize: Int, type: Int, posX: Int, posY: Int, resources
     fun setHighlight(visible: Boolean) {
         borderRect.visible = visible
     }
+
+    override fun toString(): String {
+        return "Card(type=$type [$column:$row])"
+    }
+
 
 }
