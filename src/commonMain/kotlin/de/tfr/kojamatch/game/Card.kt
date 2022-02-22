@@ -14,8 +14,9 @@ import com.soywiz.korma.interpolation.Easing
  */
 class Card(private val cardSize: Int, type: Int, posX: Int, posY: Int, resources: Resources) : Container() {
 
-    private val borderRect: SolidRect
-    private val border = 4.0
+    private val borderRect: RoundRect
+    private val border = 6.0
+    private val cornerRadius = 12.0
     private val image: Image
     private val background: Image
     private val scaledSize: Double
@@ -26,11 +27,16 @@ class Card(private val cardSize: Int, type: Int, posX: Int, posY: Int, resources
 
     init {
         position(posX, posY)
-        borderRect = solidRect(cardSize + (border * 2), cardSize + (border * 2)) {
-            color = Colors.RED
+        borderRect = roundRect(
+            width = (cardSize + (border * 2)),
+            height = (cardSize + (border * 2)),
+            rx = cornerRadius,
+            stroke = Colors.YELLOW,
+            fill = Colors.TRANSPARENT_BLACK,
+            strokeThickness = border
+        ) {
             position(-border, -border)
         }
-        solidRect(cardSize, cardSize, color = Colors.LIGHTYELLOW)
         image = image(resources.getCard(type)) {
             setSize(cardSize.toDouble(), cardSize.toDouble())
         }
