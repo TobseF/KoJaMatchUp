@@ -18,8 +18,8 @@ class Card(
     val type: Int,
     posX: Int,
     posY: Int,
-    val column: Int,
-    val row: Int,
+    private val column: Int,
+    private val row: Int,
     resources: Resources
 ) : Container() {
 
@@ -74,7 +74,6 @@ class Card(
 
     suspend fun collect() {
         collected = true
-        takeUp()
         rotating = true
         background.visible = false
         image.tween(
@@ -109,6 +108,5 @@ class Card(
     override fun toString(): String {
         return "Card(type=$type [$column:$row])"
     }
-
 
 }

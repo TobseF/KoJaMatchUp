@@ -39,10 +39,11 @@ suspend fun main() = Korge(
 
     val resources = Resources().init()
 
+
     val field = CardsField(4, 3, resources).addTo(this).alignBottomToBottomOf(this)
     val player = Player(resources, bus).addTo(this).centerOnStage()
 
-    Mechanics(bus, field, player).addTo(this)
+    Mechanics(bus, field, player).addTo(this).init()
 
     val logo = resourcesVfs["korge.png"].readBitmap()
     KorgeLogo(logo).addTo(this).init()

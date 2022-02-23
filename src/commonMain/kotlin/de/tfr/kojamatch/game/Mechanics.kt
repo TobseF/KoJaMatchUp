@@ -1,41 +1,72 @@
 package de.tfr.kojamatch.game
 
+import com.soywiz.klock.milliseconds
 import com.soywiz.korev.Key
 import com.soywiz.korge.bus.GlobalBus
 import com.soywiz.korge.input.keys
+import com.soywiz.korge.input.onClick
 import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.addFixedUpdater
 import com.soywiz.korge.view.addUpdater
+import com.soywiz.korge.view.position
 import com.soywiz.korio.async.launch
 import com.soywiz.korio.async.launchImmediately
+import com.soywiz.korma.geom.Point
 
-class Mechanics(bus: GlobalBus, val field: CardsField, player: Player) : Container() {
+class Mechanics(bus: GlobalBus, val field: CardsField, val player: Player) : Container() {
 
     private var cardA: Card? = null
     private var cardB: Card? = null
     private var pickingCard = false
+    private var destination: Point = player.pos
+    private val playerSpeed = 6.0
 
     init {
         keys {
             down {
                 if (it.key == Key.SPACE) {
-                    bus.send(Events.PicUpEvent())
-                    field.getSelectedCard(player)
-                        ?.takeIf { card -> canBePicked(card) }
-                        ?.let { card -> pickCard(card) }
+                    pickUpCard(bus)
                 }
             }
         }
 
         addUpdater {
-            deselectAllCards()
-            field.getSelectedCard(player)?.let {
-                deselectAllCards()
-                if (canBePicked(it)) {
-                    it.setHighlight(true)
-                }
-            }
+            highlightCardOnHover()
         }
 
+        addFixedUpdater(25.milliseconds) {
+            if (destination.distanceTo(player.pos) > playerSpeed) {
+                moveToDestination()
+            }
+        }
+    }
+
+    private suspend fun Mechanics.pickUpCard(bus: GlobalBus) {
+        bus.send(Events.PicUpEvent())
+        field.getSelectedCard(player)
+            ?.takeIf { card -> canBePicked(card) }
+            ?.let { card -> pickCard(card) }
+    }
+
+    private fun moveToDestination() {
+        val move = Point(destination.angleTo(player.pos), playerSpeed)
+        player.position(player.pos - move)
+    }
+
+    fun init() = parent?.apply {
+        onClick {
+            destination = it.currentPosStage
+        }
+    }
+
+    private fun highlightCardOnHover() {
+        deselectAllCards()
+        field.getSelectedCard(player)?.let {
+            deselectAllCards()
+            if (canBePicked(it)) {
+                it.setHighlight(true)
+            }
+        }
     }
 
     private fun canBePicked(card: Card) =
@@ -79,11 +110,12 @@ class Mechanics(bus: GlobalBus, val field: CardsField, player: Player) : Contain
         card.takeUp()
     }
 
-    private fun collectCards(card: Card, cardA: Card) {
+    private suspend fun collectCards(card: Card, cardA: Card) {
         this.cardA = null
         this.cardB = null
         card.collected = true
         cardA.collected = true
+        card.takeUp()
         stage?.launch {
             card.collect()
         }
@@ -92,9 +124,7 @@ class Mechanics(bus: GlobalBus, val field: CardsField, player: Player) : Contain
         }
     }
 
-    private fun deselectAllCards() {
-        field.cards.forEach {
-            it.setHighlight(false)
-        }
+    private fun deselectAllCards() = field.cards.forEach {
+        it.setHighlight(false)
     }
 }
