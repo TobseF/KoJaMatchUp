@@ -5,27 +5,26 @@ import com.soywiz.korev.Key
 import com.soywiz.korge.bus.GlobalBus
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.input.onClick
-import com.soywiz.korge.view.Container
-import com.soywiz.korge.view.addFixedUpdater
-import com.soywiz.korge.view.addUpdater
-import com.soywiz.korge.view.position
+import com.soywiz.korge.view.*
 import com.soywiz.korio.async.launch
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.Point
 
-class Mechanics(bus: GlobalBus, val field: CardsField, val player: Player) : Container() {
+class Mechanics(val bus: GlobalBus, val field: CardsField, val player: Player) : Container() {
 
     private var cardA: Card? = null
     private var cardB: Card? = null
+    private var selected: Card? = null
     private var pickingCard = false
-    private var destination: Point = player.pos
+    private var destination: Point = player.pos.copy()
     private val playerSpeed = 6.0
+    private val clickPos: Circle = circle(radius = 4.0).centered.visible(false)
 
     init {
         keys {
             down {
                 if (it.key == Key.SPACE) {
-                    pickUpCard(bus)
+                    pickUpCard()
                 }
             }
         }
@@ -39,9 +38,10 @@ class Mechanics(bus: GlobalBus, val field: CardsField, val player: Player) : Con
                 moveToDestination()
             }
         }
+
     }
 
-    private suspend fun Mechanics.pickUpCard(bus: GlobalBus) {
+    private suspend fun Mechanics.pickUpCard() {
         bus.send(Events.PicUpEvent())
         field.getSelectedCard(player)
             ?.takeIf { card -> canBePicked(card) }
@@ -55,16 +55,22 @@ class Mechanics(bus: GlobalBus, val field: CardsField, val player: Player) : Con
 
     fun init() = parent?.apply {
         onClick {
-            destination = it.currentPosStage
+            clickPos.position(it.currentPosStage)
+            val found = field.getSelectedCard(clickPos as View)
+            if (selected != null && selected == found) {
+                pickUpCard()
+            } else {
+                destination.copyFrom(it.currentPosStage)
+            }
         }
     }
 
     private fun highlightCardOnHover() {
         deselectAllCards()
         field.getSelectedCard(player)?.let {
-            deselectAllCards()
             if (canBePicked(it)) {
                 it.setHighlight(true)
+                selected = it
             }
         }
     }
@@ -126,5 +132,6 @@ class Mechanics(bus: GlobalBus, val field: CardsField, val player: Player) : Con
 
     private fun deselectAllCards() = field.cards.forEach {
         it.setHighlight(false)
+        selected = null
     }
 }

@@ -15,7 +15,7 @@ class Player(resources: Resources, val bus: GlobalBus) : Container() {
     init {
         initMoves()
         image(resources.playerImage).center()
-        hitPoint = circle(radius = 4.0, fill = Colors.TRANSPARENT_WHITE).centerOnStage()
+        hitPoint = circle(radius = 8.0, fill = Colors.TRANSPARENT_WHITE).centerOnStage()
     }
 
     private fun initMoves() {

@@ -1,8 +1,6 @@
 package de.tfr.kojamatch.game
 
-import com.soywiz.korge.view.Container
-import com.soywiz.korge.view.addTo
-import com.soywiz.korge.view.solidRect
+import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korui.layout.MathEx.min
 import virtualResolution
@@ -33,6 +31,10 @@ class CardsField(private val columns: Int, private val rows: Int, resources: Res
 
     fun getSelectedCard(player: Player): Card? {
         return cards.firstOrNull { player.touches(it) }
+    }
+
+    fun getSelectedCard(view: View): Card? {
+        return cards.firstOrNull { it.collidesWith(view) }
     }
 
     init {
