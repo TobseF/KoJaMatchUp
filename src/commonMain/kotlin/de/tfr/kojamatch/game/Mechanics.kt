@@ -5,6 +5,7 @@ import com.soywiz.korev.Key
 import com.soywiz.korge.bus.GlobalBus
 import com.soywiz.korge.input.keys
 import com.soywiz.korge.input.onClick
+import com.soywiz.korge.input.touch
 import com.soywiz.korge.view.*
 import com.soywiz.korio.async.launch
 import com.soywiz.korio.async.launchImmediately
@@ -29,6 +30,14 @@ class Mechanics(val bus: GlobalBus, val field: CardsField, val player: Player) :
                 if (it.key == Key.SPACE) {
                     pickUpCard()
                 }
+            }
+        }
+        touch {
+            this.start.once {
+                destination = it.local
+            }
+            this.end.once {
+                destination = it.local
             }
         }
 
