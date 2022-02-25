@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+-->
+<TextureAtlas imagePath="player.png" width="468" height="381">
+    <sprite n="down_00.png" x="157" y="175" w="155" h="101" r="y"/>
+    <sprite n="down_01.png" x="1" y="171" w="154" h="101" r="y"/>
+    <sprite n="down_02.png" x="157" y="175" w="155" h="101" r="y"/>
+    <sprite n="down_03.png" x="314" y="175" w="153" h="101" r="y"/>
+    <sprite n="left_00.png" x="1" y="1" w="150" h="81" r="y"/>
+    <sprite n="left_01.png" x="305" y="1" w="154" h="85" r="y"/>
+    <sprite n="left_02.png" x="1" y="1" w="150" h="81" r="y"/>
+    <sprite n="left_03.png" x="1" y="84" w="154" h="85" r="y"/>
+    <sprite n="right_00.png" x="153" y="1" w="150" h="81" r="y"/>
+    <sprite n="right_01.png" x="157" y="88" w="154" h="85" r="y"/>
+    <sprite n="right_02.png" x="153" y="1" w="150" h="81" r="y"/>
+    <sprite n="right_03.png" x="313" y="88" w="154" h="85" r="y"/>
+    <sprite n="up_00.png" x="157" y="278" w="155" h="101" r="y"/>
+    <sprite n="up_01.png" x="314" y="278" w="153" h="102" r="y"/>
+    <sprite n="up_02.png" x="157" y="278" w="155" h="101" r="y"/>
+    <sprite n="up_03.png" x="1" y="274" w="154" h="101" r="y"/>
+</TextureAtlas>
