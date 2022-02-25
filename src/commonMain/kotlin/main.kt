@@ -5,8 +5,6 @@ import com.soywiz.korge.view.alignBottomToBottomOf
 import com.soywiz.korge.view.centerOnStage
 import com.soywiz.korgw.GameWindow
 import com.soywiz.korim.color.Colors
-import com.soywiz.korim.format.readBitmap
-import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.SizeInt
 import de.tfr.kojamatch.game.*
 
@@ -39,13 +37,11 @@ suspend fun main() = Korge(
 
     val resources = Resources().init()
 
-
     val field = CardsField(4, 3, resources).addTo(this).alignBottomToBottomOf(this)
     val player = Player(resources, bus).addTo(this).centerOnStage()
 
-    Mechanics(bus, field, player).addTo(this).init()
+    Mechanics(this, bus, field, player).addTo(this)
 
-    val logo = resourcesVfs["korge.png"].readBitmap()
-    KorgeLogo(logo).addTo(this).init()
+    KorgeLogo(resources).addTo(this).init()
 }
 

@@ -13,7 +13,10 @@ import com.soywiz.korma.geom.Point
 import com.soywiz.korui.layout.MathEx
 import virtualResolution
 
-class Mechanics(val bus: GlobalBus, val field: CardsField, val player: Player) : Container() {
+class Mechanics(
+    override val stage: Stage, val bus: GlobalBus,
+    val field: CardsField, val player: Player
+) : Container() {
 
     private var cardA: Card? = null
     private var cardB: Card? = null
@@ -32,14 +35,6 @@ class Mechanics(val bus: GlobalBus, val field: CardsField, val player: Player) :
                 }
             }
         }
-        touch {
-            this.start.once {
-                destination = it.local
-            }
-            this.end.once {
-                destination = it.local
-            }
-        }
 
         addUpdater {
             highlightCardOnHover()
@@ -49,6 +44,19 @@ class Mechanics(val bus: GlobalBus, val field: CardsField, val player: Player) :
         addFixedUpdater(25.milliseconds) {
             if (destination.distanceTo(player.pos) > playerSpeed) {
                 moveToDestination()
+            } else {
+                player.stopWalking()
+            }
+        }
+
+        stage.onClick {
+            clickOn(it.currentPosStage)
+        }
+        touch {
+            this.infos.forEach {
+                stage.launchImmediately {
+                    clickOn(it.local)
+                }
             }
         }
     }
@@ -76,7 +84,7 @@ class Mechanics(val bus: GlobalBus, val field: CardsField, val player: Player) :
     private fun arrowKeys() = listOf(Key.UP, Key.DOWN, Key.LEFT, Key.RIGHT)
     private fun wasdKeys() = listOf(Key.W, Key.A, Key.S, Key.S)
 
-    private fun Key.isPressed() = stage?.input?.keys?.get(this) ?: false
+    private fun Key.isPressed() = stage.input.keys[this]
 
     private fun resetDestination() {
         destination.copyFrom(player.pos)
@@ -106,19 +114,20 @@ class Mechanics(val bus: GlobalBus, val field: CardsField, val player: Player) :
     }
 
     private fun moveToDestination() {
-        val move = Point(destination.angleTo(player.pos), playerSpeed)
+        val moveAngle = destination.angleTo(player.pos)
+        player.walk(moveAngle)
+        val move = Point(moveAngle, playerSpeed)
         player.position(player.pos - move)
     }
 
-    fun init() = parent?.apply {
-        onClick {
-            clickPos.position(it.currentPosStage)
-            val found = field.getSelectedCard(clickPos as View)
-            if (selected != null && selected == found) {
-                pickUpCard()
-            } else {
-                destination.copyFrom(it.currentPosStage)
-            }
+
+    private suspend fun clickOn(point: Point) {
+        clickPos.position(point)
+        val found = field.getSelectedCard(clickPos as View)
+        if (selected != null && selected == found) {
+            pickUpCard()
+        } else {
+            destination.copyFrom(point)
         }
     }
 
@@ -164,10 +173,10 @@ class Mechanics(val bus: GlobalBus, val field: CardsField, val player: Player) :
     private suspend fun thirdTurn(card: Card, cardA: Card, cardB: Card) {
         this.cardA = card
         this.cardB = null
-        stage?.launchImmediately {
+        stage.launchImmediately {
             cardA.takeOff()
         }
-        stage?.launchImmediately {
+        stage.launchImmediately {
             cardB.takeOff()
         }
         card.takeUp()
@@ -179,10 +188,10 @@ class Mechanics(val bus: GlobalBus, val field: CardsField, val player: Player) :
         card.collected = true
         cardA.collected = true
         card.takeUp()
-        stage?.launch {
+        stage.launch {
             card.collect()
         }
-        stage?.launch {
+        stage.launch {
             cardA.collect()
         }
     }

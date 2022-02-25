@@ -7,11 +7,10 @@ import com.soywiz.korge.view.BaseImage
 import com.soywiz.korge.view.alignRightToRightOf
 import com.soywiz.korge.view.alignTopToTopOf
 import com.soywiz.korge.view.scale
-import com.soywiz.korim.bitmap.Bitmap
 import com.soywiz.korma.geom.degrees
 import com.soywiz.korma.interpolation.Easing
 
-class KorgeLogo(bitmap: Bitmap) : BaseImage(bitmap) {
+class KorgeLogo(resources: Resources) : BaseImage(resources.logo) {
     val minDegrees = (-16).degrees
     val maxDegrees = (+16).degrees
 
