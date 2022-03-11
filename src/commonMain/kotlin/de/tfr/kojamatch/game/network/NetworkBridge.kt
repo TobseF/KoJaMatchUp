@@ -18,8 +18,9 @@ class NetworkBridge(
   private val json = Json
 
   private val dummyHost = "ws://echo.websocket.org"
-  private val localHost = "localhost"
-  private var host = localHost
+  private val localHost = "localhost:8080"
+  private val liveHost = "match-up-test.app.tobse.eu"
+  private var host = liveHost
 
   private var socket: WebSocketClient? = null
   private val log = Logger<NetworkBridge>()
@@ -80,8 +81,7 @@ class NetworkBridge(
   }
 
   suspend fun openSocket(): WebSocketClient {
-    val port = "8080"
-    val url = "ws://$host:$port/game"
+    val url = "ws://$host/game"
     log.info { "Creating WebSocketClient: $url" }
     val socket = WebSocketClient(url, debug = false)
     configureSocket(socket)

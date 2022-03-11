@@ -37,7 +37,7 @@ suspend fun main() = Korge(
     title = "KoJa Match Up",
     quality = GameWindow.Quality.QUALITY,
 ) {
-    Logger.defaultLevel = Logger.Level.DEBUG
+    Logger.defaultLevel = Logger.Level.INFO
     val bus = GlobalBus()
 
     val resources = Resources().init()
