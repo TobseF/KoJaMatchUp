@@ -1,13 +1,20 @@
 package de.tfr.kojamatch.game
 
+import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
 import com.soywiz.korge.bus.GlobalBus
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.Colors
 import com.soywiz.korma.geom.Angle
+import com.soywiz.korma.geom.Point
 import com.soywiz.korma.geom.degrees
 
-class Player(val resources: Resources, val bus: GlobalBus) : Container() {
+class Player(
+    val resources: Resources,
+    val bus: GlobalBus,
+    var id: Int = -1,
+    animationSpeed: TimeSpan = 200.milliseconds
+) : Container() {
     private val hitPoint: Circle
     private val walking: Sprite
 
@@ -20,15 +27,22 @@ class Player(val resources: Resources, val bus: GlobalBus) : Container() {
 
     init {
         hitPoint = circle(radius = 8.0, fill = Colors.TRANSPARENT_WHITE).centerOnStage()
-
+        name = "Local Player"
         walking = sprite(walkDown) {
             center()
             rotation = (-90.0).degrees
-            spriteDisplayTime = 200.milliseconds
+            spriteDisplayTime = animationSpeed
         }
     }
 
-    fun walk(angle: Angle) {
+    fun walkTo(destination: Point, length: Double) {
+        val moveAngle = destination.angleTo(pos)
+        animateWalk(moveAngle)
+        val move = Point(moveAngle, length)
+        position(pos - move)
+    }
+
+    fun animateWalk(angle: Angle) {
         stopWalking()
         fun Int.ninetyRange() = this - 45..this + 45
         when (angle.degrees.toInt()) {
@@ -45,4 +59,6 @@ class Player(val resources: Resources, val bus: GlobalBus) : Container() {
     }
 
     fun touches(view: View) = hitPoint.collidesWith(view)
+
+    fun hasID() = id >= 0
 }

@@ -13,7 +13,7 @@ import kotlin.random.Random
 class CardsField(private val columns: Int, private val rows: Int, resources: Resources) : Container() {
 
     private val minimalGap = 20
-    private val fieldHeight = (virtualResolution.height * 0.35).toInt()
+    private val fieldHeight = (virtualResolution.height * 0.60).toInt()
     private val fieldWith = virtualResolution.width
 
     val cards = mutableListOf<Card>()

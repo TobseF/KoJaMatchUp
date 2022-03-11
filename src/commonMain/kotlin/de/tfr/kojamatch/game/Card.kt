@@ -47,7 +47,7 @@ class Card(
         ) {
             position(-border, -border)
         }
-
+        name = "Card $type"
         image = image(resources.getCard(type)) {
             setSize(cardSize.toDouble(), cardSize.toDouble())
         }

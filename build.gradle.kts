@@ -33,6 +33,8 @@ korge {
 
 // To selectively enable targets
 
+	serializationJson()
+
 	targetJvm()
 	targetJs()
 	targetDesktop()
