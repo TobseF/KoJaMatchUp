@@ -1,4 +1,7 @@
 # 🎮 Ko Ja Match Up
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.6.10-blue.svg?style=flat&logo=kotlin&logoColor=white)](http://kotlinlang.org)
+[![KorGE](https://img.shields.io/badge/KorGE-2.4.10-836DAC.svg)](https://korge.soywiz.com/)
+[![Gradle](https://img.shields.io/badge/Gradle-7.0.2-5AD6AB.svg?style=flat&logo=Gradle&logoColor=white)](http://kotlinlang.org)
 
 > ℹ Ko Ja Match Up is a realtime massive multiplayer match up game.
 > Two teams try to beat each other in a concentration game.

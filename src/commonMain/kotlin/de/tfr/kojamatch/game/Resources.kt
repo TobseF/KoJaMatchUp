@@ -13,10 +13,12 @@ class Resources {
     lateinit var cardBackGround: Bitmap
     lateinit var cards: List<Bitmap>
     lateinit var playerSpriteSheet: Atlas
+    lateinit var star: Bitmap
 
 
     suspend fun init(): Resources {
         logo = resourcesVfs["korge.png"].readBitmap()
+        star = resourcesVfs["star.png"].readBitmap()
         cardBackGround = resourcesVfs["backside.png"].readBitmap()
         playerImage = resourcesVfs["player-single.png"].readBitmap()
         playerSpriteSheet = resourcesVfs["player.xml"].readAtlas()

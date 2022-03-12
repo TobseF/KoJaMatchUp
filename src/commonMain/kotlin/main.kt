@@ -45,7 +45,10 @@ suspend fun main() = Korge(
     val field = CardsField(4, 3, resources).addTo(this).alignBottomToBottomOf(this)
     val player = Player(resources, bus).addTo(this).centerOnStage()
 
+
     Mechanics(this, bus, field, player, resources).addTo(this)
+
+    val counter = StarsCounter(bus, stage, resources).addTo(this)
 
     if (multiplayer) {
         NetworkBridge(bus, this).init()

@@ -19,7 +19,7 @@ class NetworkBridge(
 
   private val dummyHost = "ws://echo.websocket.org"
   private val localHost = "ws://localhost:8080"
-  private val liveHost = "wss://match-up-test.app.tobse.eu"
+  private val liveHost = "wss://match-up-server.app.tobse.eu"
   private var host = liveHost
 
   private var socket: WebSocketClient? = null
@@ -69,6 +69,9 @@ class NetworkBridge(
         is PlayerGoneEvent -> {
           bus.send(event)
           log.info { "Player quit: $playerId" }
+        }
+        is NewScoreEvent -> {
+          bus.send(event)
         }
 
         else -> {}

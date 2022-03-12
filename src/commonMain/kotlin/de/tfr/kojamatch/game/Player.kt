@@ -13,7 +13,7 @@ class Player(
     val resources: Resources,
     val bus: GlobalBus,
     var id: Int = -1,
-    animationSpeed: TimeSpan = 200.milliseconds
+    animationSpeed: TimeSpan = 150.milliseconds
 ) : Container() {
     private val hitPoint: Circle
     private val walking: Sprite

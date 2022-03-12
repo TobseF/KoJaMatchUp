@@ -24,7 +24,7 @@ class Mechanics(
   private var selected: Card? = null
   private var pickingCard = false
   private var target: Point = player.pos.copy()
-  private val playerSpeed = 6.0
+  private val playerSpeed = 8.0
 
   private val clickPos: Circle = circle(radius = 4.0).centered.visible(false)
   private val multiplayer = mutableMapOf<Int, Player>()
