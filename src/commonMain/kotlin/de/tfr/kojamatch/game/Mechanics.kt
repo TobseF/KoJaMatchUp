@@ -181,12 +181,12 @@ class Mechanics(
   }
 
   private suspend fun collectCards(card: Card, cardA: Card) {
-    bus.send(NewCardEvent(player.pos.toPlayerPos(player.id)))
     this.cardA = null
     this.cardB = null
     card.collected = true
     cardA.collected = true
     card.takeUp()
+    bus.send(NewCardEvent(player.pos.toPlayerPos(player.id)))
     stage.launch {
       card.collect()
     }
