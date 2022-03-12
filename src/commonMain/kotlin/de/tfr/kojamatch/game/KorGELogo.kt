@@ -8,7 +8,10 @@ import com.soywiz.korge.view.*
 import com.soywiz.korma.geom.degrees
 import de.tfr.kojamatch.game.network.ConnectedEvent
 
-class KorgeLogo(val bus: GlobalBus, resources: Resources) : BaseImage(resources.logo) {
+/**
+ * KorGE logo which indicates the connecting to server state.
+ */
+class KorGELogo(private val bus: GlobalBus, resources: Resources) : BaseImage(resources.logo) {
 
     suspend fun init() {
         bus.register<ConnectedEvent> { visible = false }

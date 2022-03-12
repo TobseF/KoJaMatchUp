@@ -47,6 +47,9 @@ class Mechanics(
       stage.circle(radius = 8.0, fill = Colors.GREEN) {
       }.alignTopToTopOf(stage, 20).alignRightToRightOf(stage, 20)
     }
+    bus.register<PlayerGoneEvent> {
+      removePlayer(it.playerId)
+    }
     keys {
       down {
         if (it.key == Key.SPACE) {
@@ -81,6 +84,12 @@ class Mechanics(
         }
       }
     }
+  }
+
+  private fun removePlayer(playerId: Int) {
+    multiplayerTargets.remove(playerId)
+    multiplayer[playerId]?.removeFromParent()
+    multiplayer.remove(playerId)
   }
 
   private fun movePlayer(player: Player, target: Point) {
@@ -241,6 +250,6 @@ class Mechanics(
     selected = null
   }
 
-  fun Point.toPlayerPos(id: Int) = PlayerPos(this.x.toInt(), this.y.toInt(), id)
-  fun PlayerPos.toPoint() = Point(this.x, this.y)
+  private fun Point.toPlayerPos(id: Int) = PlayerPos(this.x.toInt(), this.y.toInt(), id)
+  private fun PlayerPos.toPoint() = Point(this.x, this.y)
 }

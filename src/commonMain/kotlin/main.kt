@@ -51,6 +51,6 @@ suspend fun main() = Korge(
         NetworkBridge(bus, this).init()
     }
 
-    KorgeLogo(bus, resources).addTo(this).init()
+    KorGELogo(bus, resources).addTo(this).init()
 }
 

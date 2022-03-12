@@ -36,7 +36,7 @@ class NetworkBridge(
     }
   }
 
-  suspend fun broadcast(packet: Packet) {
+  private suspend fun broadcast(packet: Packet) {
     log.debug { "broadcast: $packet" }
     val parsed = json.encodeToString(packet)
     if (socket == null) {
@@ -66,6 +66,11 @@ class NetworkBridge(
           connected = true
           log.info { "Connected as player: $playerId" }
         }
+        is PlayerGoneEvent -> {
+          bus.send(event)
+          log.info { "Player quit: $playerId" }
+        }
+
         else -> {}
       }
     }
@@ -80,7 +85,7 @@ class NetworkBridge(
     }
   }
 
-  suspend fun openSocket(): WebSocketClient {
+  private suspend fun openSocket(): WebSocketClient {
     val url = "$host/game"
     log.info { "Creating WebSocketClient: $url" }
     val socket = WebSocketClient(url, debug = false)
@@ -88,7 +93,7 @@ class NetworkBridge(
     return socket
   }
 
-  suspend fun configureSocket(socket: WebSocketClient) {
+  private suspend fun configureSocket(socket: WebSocketClient) {
     socket.onStringMessage.add {
       scope.launch {
         handleData(it)
@@ -100,7 +105,6 @@ class NetworkBridge(
     }
 
     socket.onOpen.add {
-
     }
   }
 
