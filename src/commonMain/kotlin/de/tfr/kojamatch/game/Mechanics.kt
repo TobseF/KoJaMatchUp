@@ -11,9 +11,7 @@ import com.soywiz.korim.color.Colors
 import com.soywiz.korio.async.launch
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korma.geom.Point
-import com.soywiz.korui.layout.MathEx
 import de.tfr.kojamatch.game.network.*
-import virtualResolution
 
 class Mechanics(
   override val stage: Stage, private val bus: GlobalBus,
@@ -27,7 +25,7 @@ class Mechanics(
   private var pickingCard = false
   private var target: Point = player.pos.copy()
   private val playerSpeed = 6.0
-  private val playerStep = 20
+
   private val clickPos: Circle = circle(radius = 4.0).centered.visible(false)
   private val multiplayer = mutableMapOf<Int, Player>()
   private val multiplayerTargets = mutableMapOf<Int, PlayerPos>()
@@ -60,9 +58,6 @@ class Mechanics(
 
     addUpdater {
       highlightCardOnHover()
-      stage.apply {
-        handeKeyboardControls()
-      }
     }
 
     addFixedUpdater(25.milliseconds) {
@@ -114,51 +109,6 @@ class Mechanics(
         multiplayerTargets[playerPos.playerId] = playerPos
       }
     }
-  }
-
-  private fun handeKeyboardControls() {
-    if (anyMoveKeyIsPressed()) {
-      resetDestination()
-      if (Key.UP.isPressed() || Key.W.isPressed()) {
-        moveUp()
-      }
-      if (Key.DOWN.isPressed() || Key.S.isPressed()) {
-        moveDown()
-      }
-      if (Key.LEFT.isPressed() || Key.A.isPressed()) {
-        moveLeft()
-      }
-      if (Key.RIGHT.isPressed() || Key.D.isPressed()) {
-        moveRight()
-      }
-    }
-  }
-
-  private fun anyMoveKeyIsPressed() = (arrowKeys() + wasdKeys()).any { it.isPressed() }
-
-  private fun arrowKeys() = listOf(Key.UP, Key.DOWN, Key.LEFT, Key.RIGHT)
-  private fun wasdKeys() = listOf(Key.W, Key.A, Key.S, Key.S)
-
-  private fun Key.isPressed() = stage.input.keys[this]
-
-  private fun resetDestination() {
-    target.copyFrom(player.pos)
-  }
-
-  private fun moveLeft() {
-    target.x = MathEx.max(target.x - playerStep, 0.0)
-  }
-
-  private fun moveRight() {
-    target.x = MathEx.min(target.x + playerStep, virtualResolution.width.toDouble())
-  }
-
-  private fun moveDown() {
-    target.y = MathEx.min(target.y + playerStep, virtualResolution.height.toDouble())
-  }
-
-  private fun moveUp() {
-    target.y = MathEx.max(target.y - playerStep, 0.0)
   }
 
   private suspend fun Mechanics.pickUpCard() {
